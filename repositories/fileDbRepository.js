@@ -1,7 +1,6 @@
-const xid = require('xid-js');
-const fs = require('fs').promises;
-
-class FileDbRepository {
+import fs from "fs/promises";
+import xid from "xid-js";
+export class FileDbRepository {
 
     constructor(itemsPath) {
         this.itemsPath = itemsPath;
@@ -54,9 +53,4 @@ class FileDbRepository {
 
         return newItem;
     }
-}
-
-
-module.exports = {
-    FileDbRepository
 }

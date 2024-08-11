@@ -1,6 +1,6 @@
-const { isNameValid, isEmailValid, isPhoneValid } = require("../helpers/validators");
+import { isNameValid, isEmailValid, isPhoneValid } from "../helpers/validators.js";
 
-class ContactService {
+export class ContactService {
     #repository;
 
     constructor(repository) {
@@ -48,8 +48,4 @@ class ContactService {
 
         return await this.#repository.updateItem(contact) || null;
     }
-}
-
-module.exports = {
-    ContactService
 }
