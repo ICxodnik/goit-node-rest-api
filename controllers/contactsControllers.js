@@ -27,7 +27,7 @@ async function deleteContact(req, res) {
         throw HttpError(404);
     }
     res.json(result);
-    res.status(204);
+    res.status(200);
 };
 
 async function createContact(req, res) {
