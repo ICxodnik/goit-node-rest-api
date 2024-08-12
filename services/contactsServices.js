@@ -20,11 +20,6 @@ export class ContactService {
     }
 
     async addContact(data) {
-        if (!(data.name && data.email && data.phone)) { return "Insert all necessary fields"; }
-        if (!isNameValid(data.name)) { return "Name is not valid"; }
-        if (!isEmailValid(data.email)) { return "Email is not valid"; }
-        if (!isPhoneValid(data.phone)) { return "Phone is not valid"; }
-
         const newContact = {
             ...data
         }
