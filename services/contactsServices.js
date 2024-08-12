@@ -1,4 +1,3 @@
-import { isNameValid, isEmailValid, isPhoneValid } from "../helpers/validators.js";
 
 export class ContactService {
     #repository;
@@ -33,11 +32,6 @@ export class ContactService {
     }
 
     async updateContact(contactId, data) {
-        if (!contactId) { return "Id cannot be empty"; }
-        if (data.name && !isNameValid(data.name)) { return "Name is not valid"; }
-        if (data.email && !isEmailValid(data.email)) { return "Email is not valid"; }
-        if (data.phone && !isPhoneValid(data.phone)) { return "Phone is not valid"; }
-
         let contact = await this.#repository.getItemById(contactId);
         if (!contact) { return null; }
 
