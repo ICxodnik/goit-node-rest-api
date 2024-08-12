@@ -1,37 +1,47 @@
 import { ContactService } from "../services/contactsServices.js";
 import { FileDbRepository } from "../repositories/fileDbRepository.js";
-import ctrlWrapper from "../helpers/ctrlWrapper.js"
+import ctrlWrapper from "../helpers/ctrlWrapper.js";
+import HttpError from "../helpers/HttpError.js";
 import path from "path";
 
 const repository = new FileDbRepository(path.resolve("db/contacts.json"));
 const service = new ContactService(repository);
 
-export async function getAllContacts(req, res) {
-    res.status(200);
+async function getAllContacts(req, res) {
     res.json(await service.listContacts());
 };
 
-export async function getOneContact(req, res) {
-    res.status(200);
+async function getOneContact(req, res) {
     const { id } = req.params;
-    res.json(await service.getContactById(id));
+    const result = await service.getContactById(id);
+    if (!result) {
+        throw HttpError(404);
+    }
+    res.json(result);
 };
 
-export async function deleteContact(req, res) {
-    res.status(200);
+async function deleteContact(req, res) {
     const { id } = req.params;
-    res.json(await service.removeContact(id));
+    const result = await service.removeContact(id);
+    if (!result) {
+        throw HttpError(404);
+    }
+    res.json(result);
+    res.status(204);
 };
 
-export async function createContact(req, res) {
-    res.status(200);
+async function createContact(req, res) {
     res.json(await service.addContact(req.body));
+    res.status(201);
 };
 
-export async function updateContact(req, res) {
-    res.status(200);
+async function updateContact(req, res) {
     const { id } = req.params;
-    res.json(await service.updateContact(id, req.body));
+    const result = await service.updateContact(id, req.body);
+    if (!result) {
+        throw HttpError(404);
+    }
+    res.json(result);
 };
 
 export default {
