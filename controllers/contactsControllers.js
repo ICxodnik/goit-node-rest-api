@@ -1,6 +1,6 @@
 import { ContactService } from "../services/contactsServices.js";
 import { FileDbRepository } from "../repositories/fileDbRepository.js";
-import { ctrlWrapper } from "../helpers/ctrlWrapper.js"
+import ctrlWrapper from "../helpers/ctrlWrapper.js"
 import path from "path";
 
 const repository = new FileDbRepository(path.resolve("db/contacts.json"));
