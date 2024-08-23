@@ -21,17 +21,32 @@ export class ContactService {
 
     async addContact(data) {
         const newContact = {
-            ...data
-        }
-        return await this.#repository.addItem(newContact) || null;
+            ...data,
+        };
+        return (await this.#repository.addItem(newContact)) || null;
     }
 
     async updateContact(contactId, data) {
         let contact = await this.#repository.getItemById(contactId);
-        if (!contact) { return null; }
+        if (!contact) {
+            return null;
+        }
 
         Object.assign(contact, data);
 
-        return await this.#repository.updateItem(contact) || null;
+        return (await this.#repository.updateItem(contact)) || null;
+    }
+
+    async updateStatusContact(contactId, data) {
+        let contact = await this.#repository.getItemById(contactId);
+        if (!contact) {
+            return null;
+        }
+        if (contact.favorite == data.favorite) {
+            return null;
+        }
+
+        contact.favorite = data.favorite;
+        return (await this.#repository.updateItem(contact)) || null;
     }
 }

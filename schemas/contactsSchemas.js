@@ -6,6 +6,10 @@ export const createContactSchema = Joi.object({
     phone: Joi.string().length(10).pattern(/^[0-9]+$/).required(),
 })
 
+export const toggleFavSchema = Joi.object({
+    favorite: Joi.boolean().required(),
+});
+
 export const updateContactSchema = Joi.object({
     name: Joi.string().min(3).max(100),
     email: Joi.string().email().max(100),
