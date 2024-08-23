@@ -33,6 +33,23 @@ returns
 }
 ```
 
+## PATCH /api/contacts/:id/favorite
+accept 
+```json
+{
+    "favorite": true
+}
+```
+returns 
+```json
+{
+    "id": "e6ywwRe4jcqxXfCZOj_1e",
+    "name": "Thomas Lucas",
+    "email": "nec@Nulla.com",
+    "phone": "(704) 398-7993"
+}
+```
+
 ## POST /api/contacts
 accept 
 ```json
