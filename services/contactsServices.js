@@ -43,10 +43,10 @@ export class ContactService {
             return null;
         }
         if (contact.favorite == data.favorite) {
-            return null;
+            return contact;
         }
 
         contact.favorite = data.favorite;
-        return (await this.#repository.updateItem(contact)) || null;
+        return await this.#repository.updateItem(contact);
     }
 }
