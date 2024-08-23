@@ -1,8 +1,8 @@
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
-import contactsRouter from "./routes/contactsRouter.js";
 import "dotenv/config";
+import contactsRouter from "./routes/contactsRouter.js";
 import { db } from "./db/index.js";
 
 const app = express();
