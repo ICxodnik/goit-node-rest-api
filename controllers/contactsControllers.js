@@ -1,10 +1,10 @@
 import { ContactService } from "../services/contactsServices.js";
-import { FileDbRepository } from "../repositories/fileDbRepository.js";
 import ctrlWrapper from "../helpers/ctrlWrapper.js";
 import HttpError from "../helpers/HttpError.js";
-import path from "path";
+import { OrmDbRepository } from "../repositories/ormDbRepository.js";
+import * as db from "../db/index.js";
 
-const repository = new FileDbRepository(path.resolve("db/contacts.json"));
+const repository = new OrmDbRepository(db.Contact);
 const service = new ContactService(repository);
 
 async function getAllContacts(req, res) {
