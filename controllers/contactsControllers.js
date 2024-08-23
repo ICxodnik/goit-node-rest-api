@@ -1,6 +1,5 @@
 import { ContactService } from "../services/contactsServices.js";
 import ctrlWrapper from "../helpers/ctrlWrapper.js";
-import HttpError from "../helpers/HttpError.js";
 import { OrmDbRepository } from "../repositories/ormDbRepository.js";
 import * as db from "../db/index.js";
 
@@ -14,18 +13,12 @@ async function getAllContacts(req, res) {
 async function getOneContact(req, res) {
     const { id } = req.params;
     const result = await service.getContactById(id);
-    if (!result) {
-        throw HttpError(404);
-    }
     res.json(result);
 }
 
 async function deleteContact(req, res) {
     const { id } = req.params;
     const result = await service.removeContact(id);
-    if (!result) {
-        throw HttpError(404);
-    }
     res.json(result);
     res.status(200);
 }
@@ -38,18 +31,12 @@ async function createContact(req, res) {
 async function updateContact(req, res) {
     const { id } = req.params;
     const result = await service.updateContact(id, req.body);
-    if (!result) {
-        throw HttpError(404);
-    }
     res.json(result);
 }
 
 async function updateStatusContact(req, res) {
     const { id } = req.params;
     const result = await service.updateStatusContact(id, req.body);
-    if (!result) {
-        throw HttpError(404);
-    }
     res.json(result);
 }
 
