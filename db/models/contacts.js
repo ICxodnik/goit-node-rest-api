@@ -1,8 +1,6 @@
 import { DataTypes } from "sequelize";
 
-import sequelize from "../index.js";
-
-export const Contact = sequelize.define(
+export default [
     "Contact",
     {
         name: {
@@ -24,7 +22,5 @@ export const Contact = sequelize.define(
     },
     {
         underscored: true,
-    }
-);
-
-//Contact.sync({ force: true });
+    },
+];
