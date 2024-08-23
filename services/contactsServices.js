@@ -30,10 +30,7 @@ export class ContactService {
         let contact = await this.#repository.getItemById(contactId);
         if (!contact) { return null; }
 
-        contact = {
-            ...contact,
-            ...data
-        }
+        Object.assign(contact, data);
 
         return await this.#repository.updateItem(contact) || null;
     }
