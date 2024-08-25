@@ -23,7 +23,7 @@ export class ContactService {
         if (!contact) {
             throw new ItemNotFoundError(contactId);
         }
-        return contact;
+        return "Contact " + contactId + " was successfully deleted";
     }
 
     async addContact(data) {
