@@ -24,6 +24,10 @@ export default [
             type: DataTypes.BOOLEAN,
             defaultValue: false,
         },
+        ownerId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
     },
     {
         underscored: true,

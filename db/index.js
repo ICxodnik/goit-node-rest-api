@@ -1,6 +1,7 @@
 import { Sequelize } from "sequelize";
 import config from "./config.js";
 import contact from "./models/contacts.js";
+import user from "./models/users.js";
 
 export const db = new Sequelize({
     dialect: config.dialect,
@@ -13,5 +14,14 @@ export const db = new Sequelize({
     },
 });
 
+export const User = db.define(...user);
 export const Contact = db.define(...contact);
-//Contact.sync({ force: true });
+
+User.hasMany(Contact, {
+    foreignKey: {
+        name: "ownerId",
+    },
+});
+Contact.belongsTo(User);
+
+db.sync({ force: true });
