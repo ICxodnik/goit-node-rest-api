@@ -1,4 +1,6 @@
 import { ItemNotFoundError } from "../errors/itemNotFoundError.js";
+import { AlreadyExistError } from "../errors/alreadyExistError.js";
+
 import httpError from "../errors/httpError.js";
 
 const ctrlWrapper = (ctrl) => {
@@ -9,6 +11,9 @@ const ctrlWrapper = (ctrl) => {
             switch (true) {
                 case error instanceof ItemNotFoundError:
                     next(httpError(404, error.message));
+                    break;
+                case error instanceof AlreadyExistError:
+                    next(httpError(409, error.message));
                     break;
                 default:
                     next(error);
