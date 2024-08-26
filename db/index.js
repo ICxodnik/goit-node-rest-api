@@ -24,4 +24,4 @@ User.hasMany(Contact, {
 });
 Contact.belongsTo(User);
 
-db.sync({ force: true });
+// db.sync({ force: true });
