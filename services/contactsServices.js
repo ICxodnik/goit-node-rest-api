@@ -51,7 +51,7 @@ export class ContactService {
     async updateStatusContact(contactId, data) {
         let contact = await this.#repository.getItemById(contactId);
         if (!contact) {
-            throw new ItemNotFoundError(contactId);
+            throw new AppError(errorTypes.NOT_FOUND, "Not found contact" + contactId);
         }
         if (contact.favorite == data.favorite) {
             return contact;
