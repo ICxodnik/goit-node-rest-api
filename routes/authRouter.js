@@ -13,6 +13,6 @@ authRouter.post("/logout", controller.logOut);
 
 authRouter.post("/current", controller.getCurrentUser);
 
-authRouter.post("/subscription", validateBody(authSchema), controller.updateToken);
+authRouter.post("/subscription", validateBody(authSchema), controller.updateSubscription);
 
 export default authRouter;
