@@ -1,4 +1,4 @@
-import ctrlWrapper from "../helpers/ctrlWrapper.js";
+import ctrlWrapper from "../middleware.js/ctrlWrapper.js";
 import { AuthService } from "../services/authServices.js";
 
 const service = new AuthService();

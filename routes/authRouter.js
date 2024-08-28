@@ -1,7 +1,7 @@
 import express from "express";
 import controller from "../controllers/authControllers.js";
 import { authSchema } from "../schemas/authSchemas.js";
-import validateBody from "../helpers/validateBody.js";
+import validateBody from "../middleware.js/validateBody.js";
 
 const authRouter = express.Router();
 
