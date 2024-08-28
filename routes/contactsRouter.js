@@ -2,8 +2,11 @@ import express from "express";
 import controller from "../controllers/contactsControllers.js";
 import { createContactSchema, updateContactSchema, toggleFavSchema } from "../schemas/contactsSchemas.js";
 import validateBody from "../middleware/validateBody.js";
+import authenticate from "../middleware/authenticate.js";
 
 const contactsRouter = express.Router();
+
+contactsRouter.use(authenticate);
 
 contactsRouter.get("/", controller.getAllContacts);
 
