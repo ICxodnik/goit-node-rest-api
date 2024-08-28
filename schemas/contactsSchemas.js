@@ -3,8 +3,12 @@ import Joi from "joi";
 export const createContactSchema = Joi.object({
     name: Joi.string().min(3).max(100).required(),
     email: Joi.string().email().max(100).required(),
-    phone: Joi.string().length(10).pattern(/^[0-9]+$/).required(),
-})
+    ownerId: Joi.number().required(),
+    phone: Joi.string()
+        .length(10)
+        .pattern(/^[0-9]+$/)
+        .required(),
+});
 
 export const toggleFavSchema = Joi.object({
     favorite: Joi.boolean().required(),
