@@ -6,11 +6,6 @@ import * as db from "../db/index.js";
 export class AuthService {
     secret = process.env.JWT_SECRET;
     secret_quality = 5;
-    // #repository;
-
-    // constructor(repository) {
-    //     this.#repository = repository;
-    // }
 
     async register(data) {
         // optional as email unique in bd
@@ -46,10 +41,16 @@ export class AuthService {
         }
 
         // write token data
-        user.token = jwt.sign({ ...user }, this.secret, { expiresIn: "24h" });
-        user.save();
+        user.token = jwt.sign({ id: user.id }, this.secret, { expiresIn: "24h" });
+        await user.save();
 
-        return { user: user, token: user.token };
+        return {
+            user: {
+                email: user.email,
+                subscription: user.subscription,
+            },
+            token: user.token,
+        };
     }
 
     async logOut(data) {
