@@ -1,4 +1,4 @@
-import { ItemNotFoundError } from "../errors/itemNotFoundError.js";
+import { AppError, errorTypes } from "../errors/AppError.js";
 export class ContactService {
     #repository;
 
@@ -13,7 +13,7 @@ export class ContactService {
     async getContactById(contactId) {
         const contact = await this.#repository.getItemById(contactId);
         if (!contact) {
-            throw new ItemNotFoundError(contactId);
+            throw new AppError(errorTypes.NOT_FOUND, "Not found contact" + contactId);
         }
         return contact;
     }
@@ -21,7 +21,7 @@ export class ContactService {
     async removeContact(contactId) {
         const contact = await this.#repository.deleteItem(contactId);
         if (!contact) {
-            throw new ItemNotFoundError(contactId);
+            throw new AppError(errorTypes.NOT_FOUND, "Not found contact" + contactId);
         }
         return "Contact " + contactId + " was successfully deleted";
     }
@@ -32,7 +32,7 @@ export class ContactService {
         };
         const contact = await this.#repository.addItem(newContact);
         if (!contact) {
-            throw new ItemNotFoundError(contactId);
+            throw new AppError(errorTypes.NOT_FOUND, "Not found contact" + contactId);
         }
         return contact;
     }
@@ -40,7 +40,7 @@ export class ContactService {
     async updateContact(contactId, data) {
         let contact = await this.#repository.getItemById(contactId);
         if (!contact) {
-            throw new ItemNotFoundError(contactId);
+            throw new AppError(errorTypes.NOT_FOUND, "Not found contact" + contactId);
         }
 
         Object.assign(contact, data);
