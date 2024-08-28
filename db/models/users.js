@@ -23,7 +23,7 @@ export default [
             defaultValue: "starter",
         },
         token: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             defaultValue: null,
         },
     },
