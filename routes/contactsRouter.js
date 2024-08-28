@@ -1,7 +1,7 @@
 import express from "express";
 import controller from "../controllers/contactsControllers.js";
 import { createContactSchema, updateContactSchema, toggleFavSchema } from "../schemas/contactsSchemas.js";
-import validateBody from "../middleware.js/validateBody.js";
+import validateBody from "../middleware/validateBody.js";
 
 const contactsRouter = express.Router();
 

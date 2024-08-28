@@ -1,5 +1,5 @@
 import { ContactService } from "../services/contactsServices.js";
-import ctrlWrapper from "../middleware.js/ctrlWrapper.js";
+import ctrlWrapper from "../middleware/ctrlWrapper.js";
 import { OrmDbRepository } from "../repositories/ormDbRepository.js";
 import * as db from "../db/index.js";
 
