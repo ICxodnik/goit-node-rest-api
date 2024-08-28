@@ -1,4 +1,4 @@
-import { AppError, errorTypes } from "../errors/AppError.js";
+import { AppError, errorTypes } from "../errors/appError.js";
 export class ContactService {
     #repository;
 

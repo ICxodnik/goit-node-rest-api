@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { ApiError } from "../errors/ApiError.js";
+import { ApiError } from "../errors/apiError.js";
 const { JWT_SECRET } = process.env;
 
 const authenticate = async (req, res, next) => {

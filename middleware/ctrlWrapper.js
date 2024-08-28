@@ -1,5 +1,5 @@
-import { ApiError } from "../errors/ApiError.js";
-import { AppError, errorTypes } from "../errors/AppError.js";
+import { ApiError } from "../errors/apiError.js";
+import { AppError, errorTypes } from "../errors/appError.js";
 
 const ctrlWrapper = (ctrl) => {
     const func = async (req, res, next) => {
