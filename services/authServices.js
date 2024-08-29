@@ -35,7 +35,8 @@ export class AuthService {
         if (!user) {
             throw new AppError(errorTypes.INVALID_CRED, "Email or password is wrong");
         }
-        if (!this.isValidPassword(user.password, data.password)) {
+        const isValidPassword = await this.isValidPassword(user.password, data.password);
+        if (!isValidPassword) {
             throw new AppError(errorTypes.INVALID_CRED, "Email or password is wrong");
         }
 
