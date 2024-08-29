@@ -1,63 +1,71 @@
 import { AppError, errorTypes } from "../errors/appError.js";
+import * as db from "../db/index.js";
+
 export class ContactService {
-    #repository;
-
-    constructor(repository) {
-        this.#repository = repository;
+    async listContacts(ownerId) {
+        return await db.Contact.findAll({
+            where: {
+                ownerId: ownerId,
+            },
+        });
     }
 
-    async listContacts() {
-        return await this.#repository.getItems();
-    }
-
-    async getContactById(contactId) {
-        const contact = await this.#repository.getItemById(contactId);
+    async getContactById(ownerId, contactId) {
+        const contact = await db.Contact.findByPk(contactId);
         if (!contact) {
             throw new AppError(errorTypes.NOT_FOUND, "Not found contact" + contactId);
+        }
+        if (contact.ownerId != ownerId) {
+            throw new AppError(errorTypes.UNAUTHORIZED, "Not authorized");
         }
         return contact;
     }
 
-    async removeContact(contactId) {
-        const contact = await this.#repository.deleteItem(contactId);
+    async removeContact(ownerId, contactId) {
+        const contact = await db.Contact.destroy({
+            where: {
+                id: contactId,
+                ownerId,
+            },
+        });
         if (!contact) {
-            throw new AppError(errorTypes.NOT_FOUND, "Not found contact" + contactId);
+            throw new AppError(errorTypes.UNAUTHORIZED, "Not authorized");
         }
         return "Contact " + contactId + " was successfully deleted";
     }
 
-    async addContact(data) {
-        const newContact = {
-            ...data,
-        };
-        const contact = await this.#repository.addItem(newContact);
-        if (!contact) {
-            throw new AppError(errorTypes.NOT_FOUND, "Not found contact" + contactId);
-        }
+    async addContact(newContact) {
+        const contact = await db.Contact.create(newContact);
         return contact;
     }
 
-    async updateContact(contactId, data) {
-        let contact = await this.#repository.getItemById(contactId);
+    async updateContact(ownerId, contactId, data) {
+        let contact = await db.Contact.findByPk(contactId);
         if (!contact) {
             throw new AppError(errorTypes.NOT_FOUND, "Not found contact" + contactId);
+        }
+        if (contact.ownerId != ownerId) {
+            throw new AppError(errorTypes.UNAUTHORIZED, "Not authorized");
         }
 
         Object.assign(contact, data);
 
-        return await this.#repository.updateItem(contact);
+        return await contact.save();
     }
 
-    async updateStatusContact(contactId, data) {
-        let contact = await this.#repository.getItemById(contactId);
+    async updateStatusContact(ownerId, contactId, data) {
+        let contact = await db.Contact.findByPk(contactId);
         if (!contact) {
             throw new AppError(errorTypes.NOT_FOUND, "Not found contact" + contactId);
+        }
+        if (contact.ownerId != ownerId) {
+            throw new AppError(errorTypes.UNAUTHORIZED, "Not authorized");
         }
         if (contact.favorite == data.favorite) {
             return contact;
         }
 
         contact.favorite = data.favorite;
-        return await this.#repository.updateItem(contact);
+        return await contact.save();
     }
 }

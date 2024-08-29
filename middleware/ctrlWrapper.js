@@ -18,9 +18,8 @@ const ctrlWrapper = (ctrl) => {
                         next(new ApiError(404, error.message));
                         break;
                     case errorTypes.INVALID_CRED:
-                        next(new ApiError(401, error.message));
-                        break;
                     case errorTypes.INVALID_TOKEN:
+                    case errorTypes.UNAUTHORIZED:
                         next(new ApiError(401, error.message));
                         break;
                     default:
