@@ -69,4 +69,11 @@ export class AuthService {
         user.subscription = data.subscription;
         return await user.save();
     }
+
+    async updateAvatar(userId, imageUrl) {
+        const user = await this.getCurrentUser(userId);
+
+        user.avatarURL = imageUrl;
+        return await user.save();
+    }
 }

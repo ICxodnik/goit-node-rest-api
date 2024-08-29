@@ -3,6 +3,7 @@ import controller from "../controllers/authControllers.js";
 import { authSchema, subscriptionSchema } from "../schemas/authSchemas.js";
 import validateBody from "../middleware/validateBody.js";
 import authenticate from "../middleware/authenticate.js";
+import fileLoader from "../middleware/fileLoader.js";
 
 const authRouter = express.Router();
 
@@ -15,5 +16,7 @@ authRouter.post("/logout", authenticate, controller.logOut);
 authRouter.get("/current", authenticate, controller.getCurrentUser);
 
 authRouter.patch("/subscription", authenticate, validateBody(subscriptionSchema), controller.updateSubscription);
+
+authRouter.patch("/avatars", authenticate, fileLoader.single("avatarUrl"), controller.updateAvatar);
 
 export default authRouter;
