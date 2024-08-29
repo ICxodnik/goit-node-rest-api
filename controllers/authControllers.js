@@ -4,28 +4,45 @@ import { AuthService } from "../services/authServices.js";
 const service = new AuthService();
 
 async function register(req, res) {
-    const result = await service.register(req.body);
-    res.status(201).json(result);
+    const user = await service.register(req.body);
+    res.status(201).json({
+        user: {
+            email: user.email,
+            subscription: user.subscription,
+        },
+    });
 }
 
 async function logIn(req, res) {
-    const result = await service.logIn(req.body);
-    res.json(result);
+    const user = await service.logIn(req.body);
+    res.json({
+        user: {
+            email: user.email,
+            subscription: user.subscription,
+        },
+        token: user.token,
+    });
 }
 
 async function logOut(req, res) {
-    await service.logIn(req.body);
-    res.status(204);
+    await service.logOut(req.user.id);
+    res.status(204).end();
 }
 
 async function getCurrentUser(req, res) {
-    const result = await service.getCurrentUser(req.body);
-    res.json(result);
+    const user = await service.getCurrentUser(req.user.id);
+    res.json({
+        email: user.email,
+        subscription: user.subscription,
+    });
 }
 
 async function updateSubscription(req, res) {
-    const result = await service.updateSubscription(req.body);
-    res.json(result);
+    const user = await service.updateSubscription(req.user.id, req.body);
+    res.json({
+        email: user.email,
+        subscription: user.subscription,
+    });
 }
 
 export default {

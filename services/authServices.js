@@ -19,12 +19,11 @@ export class AuthService {
         }
 
         const hashPassword = await bcrypt.hash(data.password, this.secret_quality);
-        const newUser = {
+        const newUser = await db.User.create({
             ...data,
             password: hashPassword,
-        };
-        const result = await db.User.create(newUser);
-        return result;
+        });
+        return newUser;
     }
 
     async logIn(data) {
@@ -42,30 +41,19 @@ export class AuthService {
 
         // write token data
         user.token = jwt.sign({ id: user.id }, this.secret, { expiresIn: "24h" });
-        await user.save();
-
-        return {
-            user: {
-                email: user.email,
-                subscription: user.subscription,
-            },
-            token: user.token,
-        };
+        return await user.save();
     }
 
-    async logOut(data) {
-        const user = getCurrentUser(data);
+    async logOut(id) {
+        const user = await this.getCurrentUser(id);
         user.token = null;
-        user.save();
+        return await user.save();
     }
 
-    async getCurrentUser(data) {
-        //get token data
-
-        const { id } = jwt.verify(data.token, this.secret);
+    async getCurrentUser(userId) {
         const user = await db.User.findOne({
             where: {
-                id: id,
+                id: userId,
             },
         });
         if (!user) {
@@ -74,12 +62,11 @@ export class AuthService {
         return user;
     }
 
-    async updateSubscription(data) {
-        const user = getCurrentUser(data);
+    async updateSubscription(userId, data) {
+        const user = await this.getCurrentUser(userId);
 
         user.subscription = data.subscription;
-        user.save();
-        return user;
+        return await user.save();
     }
 
     async isValidPassword(password, checkingPassword) {
