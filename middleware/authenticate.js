@@ -1,6 +1,9 @@
 import jwt from "jsonwebtoken";
 import { ApiError } from "../errors/apiError.js";
+import { AuthService } from "../services/authServices.js";
 const { JWT_SECRET } = process.env;
+
+const service = new AuthService();
 
 const authenticate = async (req, res, next) => {
     const { authorization } = req.headers;
@@ -30,7 +33,10 @@ const authenticate = async (req, res, next) => {
 
         next();
     } catch (error) {
-        next(new ApiError(401, error.message));
+        if (error instanceof AppError) {
+            return next(new ApiError(401, error.message));
+        }
+        return next(new ApiError(500, error.message));
     }
 };
 
