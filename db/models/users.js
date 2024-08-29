@@ -22,6 +22,10 @@ export default [
             values: ["starter", "pro", "business"],
             defaultValue: "starter",
         },
+        avatarURL: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
         token: {
             type: DataTypes.TEXT,
             defaultValue: null,
