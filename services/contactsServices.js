@@ -2,12 +2,29 @@ import { AppError, errorTypes } from "../errors/appError.js";
 import * as db from "../db/index.js";
 
 export class ContactService {
-    async listContacts(ownerId) {
-        return await db.Contact.findAll({
-            where: {
-                ownerId: ownerId,
-            },
-        });
+    defaultLimit = 20;
+
+    async listContacts(filters) {
+        let searchStr = {
+            ownerId: filters.ownerId,
+        };
+        let query = {
+            where: searchStr,
+            limit: this.defaultLimit,
+            offset: 0,
+        };
+
+        if (filters.favorite) {
+            searchStr.favorite = true;
+        }
+        if (filters.limit) {
+            query.limit = +filters.limit;
+        }
+        if (filters.page) {
+            query.offset = query.limit * (filters.page - 1);
+        }
+
+        return await db.Contact.findAll(query);
     }
 
     async getContactById(ownerId, contactId) {
