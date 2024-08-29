@@ -22,6 +22,5 @@ User.hasMany(Contact, {
         name: "ownerId",
     },
 });
-Contact.belongsTo(User);
 
 // db.sync({ force: true });
