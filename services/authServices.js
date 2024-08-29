@@ -35,7 +35,7 @@ export class AuthService {
         if (!user) {
             throw new AppError(errorTypes.INVALID_CRED, "Email or password is wrong");
         }
-        const isValidPassword = await this.isValidPassword(user.password, data.password);
+        const isValidPassword = await bcrypt.compare(data.password, user.password);
         if (!isValidPassword) {
             throw new AppError(errorTypes.INVALID_CRED, "Email or password is wrong");
         }
@@ -68,11 +68,5 @@ export class AuthService {
 
         user.subscription = data.subscription;
         return await user.save();
-    }
-
-    async isValidPassword(password, checkingPassword) {
-        const hashPassword = await bcrypt.hash(checkingPassword, this.secret_quality);
-
-        return await bcrypt.compare(hashPassword, password);
     }
 }
