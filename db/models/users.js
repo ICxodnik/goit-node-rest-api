@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 
 export default [
-    "User",
+    "user",
     {
         id: {
             type: DataTypes.INTEGER,
