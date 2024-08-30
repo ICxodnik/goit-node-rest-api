@@ -26,6 +26,20 @@ export class AuthService {
         return newUser;
     }
 
+    async verifyToken(token) {
+        const user = await db.User.findOne({
+            where: {
+                verificationToken: token,
+            },
+        });
+        if (!user) {
+            throw new AppError(errorTypes.NOT_FOUND, "User not found");
+        }
+        user.verificationToken = null;
+        user.verify = true;
+        await user.save;
+    }
+
     async logIn(data) {
         const user = await db.User.findOne({
             where: {

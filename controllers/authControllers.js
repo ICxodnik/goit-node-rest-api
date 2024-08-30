@@ -19,6 +19,13 @@ async function register(req, res) {
     });
 }
 
+async function verifyToken(req, res) {
+    await service.verifyToken(req.params.verificationToken);
+    res.status(201).json({
+        message: "Verification successful",
+    });
+}
+
 async function updateAvatar(req, res) {
     const fileURl = await getAvatarUrl(req.file);
 
@@ -76,4 +83,5 @@ export default {
     updateSubscription: ctrlWrapper(updateSubscription),
     getCurrentUser: ctrlWrapper(getCurrentUser),
     updateAvatar: ctrlWrapper(updateAvatar),
+    verifyToken: ctrlWrapper(verifyToken),
 };
