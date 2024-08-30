@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 
 export default [
-    "Contact",
+    "сontact",
     {
         id: {
             type: DataTypes.UUID,
