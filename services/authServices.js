@@ -2,6 +2,7 @@ import { AppError, errorTypes } from "../errors/appError.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import * as db from "../db/index.js";
+import { v4 as uuidv4 } from "uuid";
 
 export class AuthService {
     secret = process.env.JWT_SECRET;
@@ -22,6 +23,7 @@ export class AuthService {
         const newUser = await db.User.create({
             ...data,
             password: hashPassword,
+            verificationToken: uuidv4(),
         });
         return newUser;
     }
@@ -46,6 +48,9 @@ export class AuthService {
                 email: data.email,
             },
         });
+        if (user.verificationToken || user.verify === false) {
+            throw new AppError(errorTypes.INVALID_CRED, "Email is not verified");
+        }
         if (!user) {
             throw new AppError(errorTypes.INVALID_CRED, "Email or password is wrong");
         }
