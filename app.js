@@ -26,7 +26,7 @@ app.use((err, req, res, next) => {
     console.warn(err);
 });
 
-app.listen(3000, () => {
+const server = app.listen(3000, () => {
     console.log("Server is running. Use our API on port: 3000");
 });
 
@@ -39,3 +39,12 @@ db.authenticate()
 
         process.exit(1);
     });
+
+function closeApp() {
+    server.close();
+    server.on("close", () => {
+        db.close();
+    });
+}
+
+export { closeApp, app };
