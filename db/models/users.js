@@ -30,6 +30,13 @@ export default [
             type: DataTypes.TEXT,
             defaultValue: null,
         },
+        verify: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+        },
+        verificationToken: {
+            type: DataTypes.STRING,
+        },
     },
     {
         underscored: true,
