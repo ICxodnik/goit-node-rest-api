@@ -21,7 +21,7 @@ async function register(req, res) {
 }
 
 async function updateAvatar(req, res) {
-    if (req.file) {
+    if (!req.file) {
         throw new ApiError(400, "Image is required");
     }
     const fileURl = await getAvatarUrl(req.file);

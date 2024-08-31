@@ -7,7 +7,7 @@ const ctrlWrapper = (ctrl) => {
             await ctrl(req, res, next);
         } catch (error) {
             if (error instanceof ApiError) {
-                return next(ApiError(error.statusCode, error.message));
+                return next(new ApiError(error.status, error.message));
             }
             if (error instanceof AppError) {
                 switch (error.errorType) {
