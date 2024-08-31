@@ -3,6 +3,7 @@ import gravatar from "gravatar";
 import { AuthService } from "../services/authServices.js";
 import * as fs from "node:fs/promises";
 import path from "node:path";
+import { ApiError } from "../errors/apiError.js";
 
 const service = new AuthService();
 const avatarPath = path.resolve("public", "avatars");
@@ -20,6 +21,9 @@ async function register(req, res) {
 }
 
 async function updateAvatar(req, res) {
+    if (req.file) {
+        throw new ApiError(400, "Image is required");
+    }
     const fileURl = await getAvatarUrl(req.file);
 
     const user = await service.updateAvatar(req.user.id, fileURl);
