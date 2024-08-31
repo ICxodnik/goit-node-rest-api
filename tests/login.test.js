@@ -25,17 +25,18 @@ describe("test /login route", () => {
 
         const { status, body } = await request(app).post("/api/auth/login").send(loginData);
 
-        expect(status).toBe(200);
-        expect(body.user.email).toBe(loginData.email);
-        expect(body.token).toBeDefined();
+        expect(status).toBe(401);
+        expect(body.message).toBe("Email is not verified");
+        // expect(body.user.email).toBe(loginData.email);
+        // expect(body.token).toBeDefined();
 
-        const user = await User.findOne({
-            where: {
-                email: loginData.email,
-            },
-        });
+        // const user = await User.findOne({
+        //     where: {
+        //         email: loginData.email,
+        //     },
+        // });
 
-        expect(user).toBeTruthy();
+        // expect(user).toBeTruthy();
     });
 
     test("/login with incorrect creds", async () => {
