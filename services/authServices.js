@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import * as db from "../db/index.js";
 import { v4 as uuidv4 } from "uuid";
-import * as email from "./emailServices.js";
+import * as mailService from "./emailServices.js";
 
 export class AuthService {
     secret = process.env.JWT_SECRET;
@@ -27,7 +27,7 @@ export class AuthService {
             verificationToken: uuidv4(),
         });
 
-        await email.sendVerifyEmail(newUser.email, newUser.verificationToken);
+        await mailService.sendVerifyEmail(newUser.email, newUser.verificationToken);
         return newUser;
     }
 
@@ -40,9 +40,26 @@ export class AuthService {
         if (!user) {
             throw new AppError(errorTypes.NOT_FOUND, "User not found");
         }
+
+        //Не вказано в тз, що якщо користувач вже верифікований щоб відправляти помилку
         user.verificationToken = null;
         user.verify = true;
         await user.save();
+    }
+
+    async sendVerifyToken(email) {
+        const user = await db.User.findOne({
+            where: {
+                email: email,
+            },
+        });
+        if (!user) {
+            throw new AppError(errorTypes.INVALID_CRED, "Email or password is wrong");
+        }
+        if (user.verificationToken === null || user.verify === true) {
+            throw new AppError(errorTypes.ALREADY_VERIFIED, "Verification has already been passed");
+        }
+        await mailService.sendVerifyEmail(user.email, user.verificationToken);
     }
 
     async logIn(data) {
@@ -51,12 +68,13 @@ export class AuthService {
                 email: data.email,
             },
         });
-        if (user.verificationToken || user.verify === false) {
-            throw new AppError(errorTypes.INVALID_CRED, "Email is not verified");
-        }
         if (!user) {
             throw new AppError(errorTypes.INVALID_CRED, "Email or password is wrong");
         }
+        if (user.verificationToken || user.verify === false) {
+            throw new AppError(errorTypes.INVALID_CRED, "Email is not verified");
+        }
+
         const isValidPassword = await bcrypt.compare(data.password, user.password);
         if (!isValidPassword) {
             throw new AppError(errorTypes.INVALID_CRED, "Email or password is wrong");

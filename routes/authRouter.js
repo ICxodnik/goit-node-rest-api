@@ -1,6 +1,6 @@
 import express from "express";
 import controller from "../controllers/authControllers.js";
-import { authSchema, subscriptionSchema } from "../schemas/authSchemas.js";
+import { authSchema, subscriptionSchema, verifySchema } from "../schemas/authSchemas.js";
 import validateBody from "../middleware/validateBody.js";
 import authenticate from "../middleware/authenticate.js";
 import fileLoader from "../middleware/fileLoader.js";
@@ -20,5 +20,7 @@ authRouter.patch("/subscription", authenticate, validateBody(subscriptionSchema)
 authRouter.patch("/avatars", authenticate, fileLoader.single("avatarUrl"), controller.updateAvatar);
 
 authRouter.get("/verify/:verificationToken", controller.verifyToken);
+
+authRouter.post("/verify", validateBody(verifySchema), controller.sendVerifyToken);
 
 export default authRouter;

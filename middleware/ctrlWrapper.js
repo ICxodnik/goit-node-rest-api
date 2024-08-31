@@ -22,6 +22,9 @@ const ctrlWrapper = (ctrl) => {
                     case errorTypes.UNAUTHORIZED:
                         next(new ApiError(401, error.message));
                         break;
+                    case errorTypes.ALREADY_VERIFIED:
+                        next(new ApiError(400, error.message));
+                        break;
                     default:
                         next(error);
                 }

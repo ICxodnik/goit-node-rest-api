@@ -26,6 +26,13 @@ async function verifyToken(req, res) {
     });
 }
 
+async function sendVerifyToken(req, res) {
+    await service.sendVerifyToken(req.body.email);
+    res.status(200).json({
+        message: "Verification email sent",
+    });
+}
+
 async function updateAvatar(req, res) {
     const fileURl = await getAvatarUrl(req.file);
 
@@ -84,4 +91,5 @@ export default {
     getCurrentUser: ctrlWrapper(getCurrentUser),
     updateAvatar: ctrlWrapper(updateAvatar),
     verifyToken: ctrlWrapper(verifyToken),
+    sendVerifyToken: ctrlWrapper(sendVerifyToken),
 };
