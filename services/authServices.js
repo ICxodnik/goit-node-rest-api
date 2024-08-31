@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import * as db from "../db/index.js";
 import { v4 as uuidv4 } from "uuid";
+import * as email from "./emailServices.js";
 
 export class AuthService {
     secret = process.env.JWT_SECRET;
@@ -25,6 +26,8 @@ export class AuthService {
             password: hashPassword,
             verificationToken: uuidv4(),
         });
+
+        await email.sendVerifyEmail(newUser.email, newUser.verificationToken);
         return newUser;
     }
 
@@ -39,7 +42,7 @@ export class AuthService {
         }
         user.verificationToken = null;
         user.verify = true;
-        await user.save;
+        await user.save();
     }
 
     async logIn(data) {

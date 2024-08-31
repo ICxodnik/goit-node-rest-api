@@ -19,6 +19,6 @@ authRouter.patch("/subscription", authenticate, validateBody(subscriptionSchema)
 
 authRouter.patch("/avatars", authenticate, fileLoader.single("avatarUrl"), controller.updateAvatar);
 
-authRouter.patch("/verify/:verificationToken", controller.verifyToken);
+authRouter.get("/verify/:verificationToken", controller.verifyToken);
 
 export default authRouter;
