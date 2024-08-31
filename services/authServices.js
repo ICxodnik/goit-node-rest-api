@@ -42,6 +42,10 @@ export class AuthService {
         }
 
         //Не вказано в тз, що якщо користувач вже верифікований щоб відправляти помилку
+        if (user.verificationToken === null || user.verify === true) {
+            return;
+        }
+        
         user.verificationToken = null;
         user.verify = true;
         await user.save();
